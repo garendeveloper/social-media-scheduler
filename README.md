@@ -21,9 +21,7 @@ A **Next.js** application for scheduling and displaying social media posts with 
 - [Running the Application](#-running-the-application)  
 - [Available Scripts](#-available-scripts)  
 - [Assumptions & Notes](#-assumptions--notes)  
-- [Live Demo](#-live-demo)  
 - [Author](#-author)  
-- [License](#-license)  
 
 ---
 
@@ -39,12 +37,14 @@ A **Next.js** application for scheduling and displaying social media posts with 
 
 ## 🖼️ Screenshots
 
-![Dashboard](./screenshots/dashboard.png)  
-*Main dashboard showing upcoming and past posts*
+![Create Post - Main](https://drive.google.com/file/d/16S74tL6ThMEMkOPGefmJ4rSBnUt5GmRH/view?usp=sharing)  
+*Create post showing no posts yet*
 
-![Create Post](./screenshots/create-post.png)  
-*Create and schedule new posts with image uploads*
+![Upcoming Example](https://drive.google.com/file/d/1AmUry11uM3M15L5tIv6wy6Y55JkLEEgt/view?usp=sharing)  
+*Create and schedule new posts with image uploads (upcoming)*
 
+![Past Example](https://drive.google.com/file/d/1hG9h3G2-FBWsxo_mWFH_VZZhIGM528Jq/view?usp=sharing)  
+*Create and schedule new posts with image uploads (upcoming)*
 ---
 
 ## 🛠️ Prerequisites
@@ -68,10 +68,11 @@ Copy code
 npm install
 Set up environment variables
 
-Create a .env.local file in the root directory:
+Create a .env file in the root directory:
 
 env
-Copy code
+Copy 
+#----#
 # Database Configuration
 DATABASE_URL="postgresql://username:password@localhost:5432/social_valet_scheduler"
 
@@ -79,55 +80,39 @@ DATABASE_URL="postgresql://username:password@localhost:5432/social_valet_schedul
 CLOUDINARY_CLOUD_NAME="your_cloudinary_cloud_name"
 CLOUDINARY_API_KEY="your_cloudinary_api_key"
 CLOUDINARY_API_SECRET="your_cloudinary_api_secret"
-Initialize the database
+#-----#
 
-bash
-Copy code
+Initialize the database
 npx prisma generate
 npx prisma db push
+
 Database Setup Options
 Option A: Local PostgreSQL
 sql
-Copy code
 CREATE DATABASE social_valet_scheduler;
+
 Option B: Cloud PostgreSQL
 Create a free account at Supabase or Neon
 
 Create a new project
-
-Use the provided connection string in your .env.local file
+Use the provided connection string in your .env file
 
 🏃 Running the Application
 Start the development server:
-
-bash
-Copy code
 npm run dev
 Open http://localhost:3000 in your browser to access the app.
 
 ⚙️ Available Scripts
-bash
-Copy code
 npm run dev      # Start development server
+
 📌 Assumptions & Notes
 Image Format: Only JPEG images supported
-
 File Size: Maximum 3MB
-
 Scheduling: Posts can only be scheduled for future dates/times
-
 User Management: Single-user system (no authentication implemented)
-
 Timezone: Uses client's local timezone for scheduling and display
-
 Image Storage: Cloudinary is used for production-ready image handling
-
 Post Status: Calculated dynamically as UPCOMING or PAST based on current time
-
-🌐 Live Demo
-(Optional: Add a link if deployed online, e.g., Vercel or Netlify)
-
-View Live Demo
 
 📚 Author
 Garendeveloper
