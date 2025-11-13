@@ -5,6 +5,11 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
+/**
+ * Form validation schema using Zod
+ * Ensures caption is required and under 500 chars
+ * Validates scheduled date is in the future
+ */
 const postSchema = z.object({
   caption: z.string().min(1, 'Caption is required').max(500, 'Caption too long'),
   scheduledAt: z.string().min(1, 'Scheduled date is required'),
@@ -20,11 +25,18 @@ interface PostFormProps {
   isLoading?: boolean;
 }
 
+/**
+ * PostForm Component
+ * Handles post creation with image upload and scheduling
+ * Includes validation, image preview, and loading states
+ */
 export default function PostForm({ onSubmit, isLoading = false }: PostFormProps) {
+  // State for image preview and file handling
   const [imagePreview, setImagePreview] = useState<string>('');
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
 
+  // React Hook Form setup with Zod validation
   const {
     register,
     handleSubmit,
@@ -34,9 +46,15 @@ export default function PostForm({ onSubmit, isLoading = false }: PostFormProps)
     resolver: zodResolver(postSchema),
   });
 
+  /**
+   * Handles image file selection with validation
+   * Validates file type (JPEG only) and size (3MB max)
+   * Creates preview URL for user confirmation
+   */
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      // Validate file type and size
       if (!file.type.startsWith('image/jpeg')) {
         alert('Only JPEG images are allowed');
         return;
@@ -45,7 +63,9 @@ export default function PostForm({ onSubmit, isLoading = false }: PostFormProps)
         alert('File size must be less than 3MB');
         return;
       }
+      
       setImageFile(file);
+      // Create preview URL for user to see selected image
       const reader = new FileReader();
       reader.onload = (e) => {
         setImagePreview(e.target?.result as string);
@@ -54,6 +74,10 @@ export default function PostForm({ onSubmit, isLoading = false }: PostFormProps)
     }
   };
 
+  /**
+   * Uploads image to server and returns Cloudinary URL
+   * Handles upload errors and provides user feedback
+   */
   const uploadImage = async (file: File): Promise<string> => {
     const formData = new FormData();
     formData.append('image', file);
@@ -72,20 +96,30 @@ export default function PostForm({ onSubmit, isLoading = false }: PostFormProps)
     return data.imageUrl;
   };
 
+  /**
+   * Handles form submission
+   * Uploads image if present, then submits post data
+   * Resets form and states on successful submission
+   */
   const onSubmitForm = async (data: PostFormData) => {
     try {
       setUploading(true);
       let imageUrl = '';
 
+      // Upload image first if one was selected
       if (imageFile) {
         imageUrl = await uploadImage(imageFile);
       }
 
+      // Submit post data with optional image URL
       onSubmit({ ...data, imageUrl });
+      
+      // Reset form and clear states
       reset();
       setImagePreview('');
       setImageFile(null);
-      // Reset file input
+      
+      // Clear file input
       const fileInput = document.getElementById('image') as HTMLInputElement;
       if (fileInput) fileInput.value = '';
     } catch (error) {
@@ -95,10 +129,12 @@ export default function PostForm({ onSubmit, isLoading = false }: PostFormProps)
     }
   };
 
+  // Combined loading state for form submission
   const isSubmitting = isLoading || uploading;
 
   return (
     <form onSubmit={handleSubmit(onSubmitForm)} className="space-y-6 bg-white p-6 rounded-lg shadow-md">
+      {/* Caption Input */}
       <div>
         <label htmlFor="caption" className="block text-sm font-medium text-gray-700">
           Caption *
@@ -115,6 +151,7 @@ export default function PostForm({ onSubmit, isLoading = false }: PostFormProps)
         )}
       </div>
 
+      {/* Image Upload */}
       <div>
         <label htmlFor="image" className="block text-sm font-medium text-gray-700">
           Image (JPEG, max 3MB)
@@ -126,6 +163,7 @@ export default function PostForm({ onSubmit, isLoading = false }: PostFormProps)
           onChange={handleImageChange}
           className="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
         />
+        {/* Image Preview */}
         {imagePreview && (
           <div className="mt-2">
             <img
@@ -137,6 +175,7 @@ export default function PostForm({ onSubmit, isLoading = false }: PostFormProps)
         )}
       </div>
 
+      {/* Schedule Date Input */}
       <div>
         <label htmlFor="scheduledAt" className="block text-sm font-medium text-gray-700">
           Scheduled Date & Time *
@@ -152,6 +191,7 @@ export default function PostForm({ onSubmit, isLoading = false }: PostFormProps)
         )}
       </div>
 
+      {/* Submit Button */}
       <button
         type="submit"
         disabled={isSubmitting}

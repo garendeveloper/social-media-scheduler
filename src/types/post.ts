@@ -1,3 +1,7 @@
+/**
+ * Type definitions for Post entity and related data structures
+ */
+
 export interface Post {
   id: string;
   caption: string;

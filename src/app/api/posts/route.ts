@@ -1,13 +1,21 @@
+/**
+ * Posts API Route - /api/posts
+ * Handles post retrieval and creation with validation
+ */
+
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
+/**
+ * GET - Fetch all posts with dynamic status calculation
+ */
 export async function GET() {
   try {
     const posts = await prisma.post.findMany({
       orderBy: { scheduledAt: 'desc' },
     });
 
-    // Update post status based on current time
+    // Calculate current status based on scheduled time
     const updatedPosts = posts.map(post => ({
       ...post,
       status: new Date(post.scheduledAt) < new Date() ? 'PAST' : 'UPCOMING',
@@ -24,6 +32,9 @@ export async function GET() {
   }
 }
 
+/**
+ * POST - Create new post with validation
+ */
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
@@ -31,6 +42,7 @@ export async function POST(request: NextRequest) {
     const scheduledAt = formData.get('scheduledAt') as string;
     const imageUrl = formData.get('imageUrl') as string;
 
+    // Validate required fields
     if (!caption || !scheduledAt) {
       return NextResponse.json(
         { error: 'Caption and scheduled date are required' },
@@ -38,6 +50,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Validate future date
     const scheduledDate = new Date(scheduledAt);
     if (scheduledDate <= new Date()) {
       return NextResponse.json(
@@ -46,6 +59,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Create post in database
     const post = await prisma.post.create({
       data: {
         caption,
