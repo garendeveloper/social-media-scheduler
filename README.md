@@ -37,14 +37,14 @@ A **Next.js** application for scheduling and displaying social media posts with 
 
 ## 🖼️ Screenshots
 
-![Create Post - Main](https://drive.google.com/file/d/16S74tL6ThMEMkOPGefmJ4rSBnUt5GmRH/view?usp=sharing)  
+![Create Post - Main](https://drive.google.com/uc?export=view&id=16S74tL6ThMEMkOPGefmJ4rSBnUt5GmRH)  
 *Create post showing no posts yet*
 
-![Upcoming Example](https://drive.google.com/file/d/1AmUry11uM3M15L5tIv6wy6Y55JkLEEgt/view?usp=sharing)  
+![Upcoming Example](https://drive.google.com/uc?export=view&id=1AmUry11uM3M15L5tIv6wy6Y55JkLEEgt)  
 *Create and schedule new posts with image uploads (upcoming)*
 
-![Past Example](https://drive.google.com/file/d/1hG9h3G2-FBWsxo_mWFH_VZZhIGM528Jq/view?usp=sharing)  
-*Create and schedule new posts with image uploads (upcoming)*
+![Past Example](https://drive.google.com/uc?export=view&id=1hG9h3G2-FBWsxo_mWFH_VZZhIGM528Jq)  
+*Create and schedule new posts with image uploads (past)*
 ---
 
 ## 🛠️ Prerequisites
