@@ -71,7 +71,7 @@ Set up environment variables
 Create a .env file in the root directory:
 
 env
-Copy 
+Copy and paste the content below and paste your cloudinary credentials
 #----#
 # Database Configuration
 DATABASE_URL="postgresql://username:password@localhost:5432/social_valet_scheduler"
@@ -82,10 +82,6 @@ CLOUDINARY_API_KEY="your_cloudinary_api_key"
 CLOUDINARY_API_SECRET="your_cloudinary_api_secret"
 #-----#
 
-Initialize the database
-npx prisma generate
-npx prisma db push
-
 Database Setup Options
 Option A: Local PostgreSQL
 sql
@@ -94,8 +90,10 @@ CREATE DATABASE social_valet_scheduler;
 Option B: Cloud PostgreSQL
 Create a free account at Supabase or Neon
 
-Create a new project
-Use the provided connection string in your .env file
+Initialize the database
+npx prisma generate
+npx prisma db push
+
 
 🏃 Running the Application
 Start the development server:
