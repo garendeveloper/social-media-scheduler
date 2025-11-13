@@ -31,6 +31,6 @@ A Next.js application for scheduling and managing social media posts with image 
 ### 1. Clone and Install
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/garendeveloper/social-media-scheduler.git
 cd social-valet-scheduler
 npm install
